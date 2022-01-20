@@ -25,7 +25,7 @@ $menu = [
   "Contatti" => "contatti",
 ];
 
-$noLabelInputs = ["hiddenToGioca" => ["type" => "hidden",
+ $noLabelInputs = ["hiddenToGioca" => ["type" => "hidden",
                                        "name" => "ID",
                                        "value" => "gioca"
                                       ],
@@ -35,14 +35,24 @@ $noLabelInputs = ["hiddenToGioca" => ["type" => "hidden",
                                     ],
 ];
 
-$form = [
+$inputs = ["Nome utente" => ["type" => "text",
+                             "name" => "nomeutente",
+                             "value"=> ""
+                           ],
+           "Colore primario" => [ "type" => "color",
+                                  "name" => "pcol",
+                                  "value" => "#ffffff"
+                                ],
+          "Colore secondario" => [ "type" => "color",
+                                    "name" => "scol",
+                                    "value" => "#000000",
+                                  ]
+];
+
+ $selects = [
   "numbers" => ["labels" => ["Numero di colonne", "Numero di righe"],
                 "id" => ["larg", "alt"],
                 "values" =>["Tre" => "3", "Quattro" => "4", "Sei" =>"6", "Otto" => "8"]
-               ],
-  "colors" =>  ["labels" => ["Colore primario", "Colore secondario"],
-                "id" => ["pcol", "scol"],
-                "values" =>["Bianco" => "fff", "Nero" => "000", "Giallo" => "ffff05", "Blu" => "1105ff"]
                ],
 ];
 
@@ -50,11 +60,13 @@ $form = [
 
 //crea la scacchiera
 function CreateChessboard(int $alt, int $larg){
+
     $str = '<div id="scacchiera">';
     for($i = 0; $i < $alt; $i++){
       $str .= '<div class="riga-scacchiera" id="riga' . $i . '">';
-      for($j = 0; $j < $larg; $j++){          
-        $str .= '<div class="quadrato-' . ($i + $j) % 2 ? 'secondario' : 'primario' . '"></div>';
+      for($j = 0; $j < $larg; $j++){
+        $colore = (($i + $j) % 2) ? 'secondario' : 'primario';
+        $str .= '<div class="quadrato-' . $colore . '"></div>';
       }
       $str .= '</div>';
     }
@@ -68,13 +80,12 @@ function CreateInput($name, $type, $value){
 }
 
 //crea label per form
-function CreateLabel($id, $label, $innerFunction){
-  return '<label for="' . $id . '">' . $label . ': </label>' . $innerFunction;
+function CreateLabel($id, $label){
+  return '<label for="' . $id . '">' . $label . ': </label>';
 }
 
 //crea le scelte a tendina per form
 function CreateSelect($id, $options){
-
   $str =  '<select id="' . $id . '" name="'. $id . '">';
   foreach($options as $k => $m) {
     $str .= '<option value="' . $m . '">'. $k . '</option>';
@@ -85,7 +96,6 @@ function CreateSelect($id, $options){
 }
 
 function Menu($menu){
-
   $str = "<ul>";
   foreach ($menu as $k => $m) {
       $str .= "<li>".

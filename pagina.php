@@ -17,7 +17,7 @@ include ('header.php');
   <div id="container">
     <div id="menu">
 
-<?php echo Menu($menu);?>
+<?php echo menu($menu);?>
 
     </div>
     <div id="content">
@@ -25,11 +25,9 @@ include ('header.php');
 <?php include($objects[$id]['tpl']);
 
     if(isset($_REQUEST['submit'])){
-      $_SESSION['nomeutente'] = $_REQUEST['nomeutente'];
-      $_SESSION['larg'] = $_REQUEST['larg'];
-      $_SESSION['alt'] = $_REQUEST['alt'];
-      $_SESSION['pcol'] = $_REQUEST['pcol'];
-      $_SESSION['scol'] = $_REQUEST['scol'];
+      foreach($_REQUEST as $k => $m){
+        $_SESSION[$k] = $m;
+      }
     }
 ?>
   </div>
